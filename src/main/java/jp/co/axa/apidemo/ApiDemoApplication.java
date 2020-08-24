@@ -9,6 +9,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @EnableSwagger2
 @SpringBootApplication
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -22,19 +25,20 @@ public class ApiDemoApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        employeeService.saveEmployee(
-                Employee.builder()
-                        .name("John")
-                        .salary(1000)
-                        .department("DevOps")
-                        .build()
-        );
-        employeeService.saveEmployee(
-                Employee.builder()
-                        .name("Doe")
-                        .salary(2000)
-                        .department("BigData")
-                        .build()
-        );
+        List<Employee> employeeList = new ArrayList<>();
+
+        employeeList.add(Employee.builder()
+                .name("John")
+                .salary(1000)
+                .department("Finance")
+                .build());
+
+        employeeList.add(Employee.builder()
+                .name("Malfoy")
+                .salary(50000)
+                .department("DevOps")
+                .build());
+
+        employeeService.saveAllEmployee(employeeList);
     }
 }
