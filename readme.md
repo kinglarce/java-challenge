@@ -35,3 +35,16 @@ Application (with the embedded H2 database) is ready to be used ! You can access
 - Appropriate usage of packages
 - Is the application running as expected
 - No performance issues
+
+#### Changes made
+- [x] Add preloading of data so that I can have a sample data
+- [x] Utilize Lombok for Autowiring, class utilization using Builder and Data for setters/getters
+- [x] Add in ReponseEntity for response and RequestBody for POST payload
+- [x] Add model request for validating the payload of POST/PUT
+- [x] Add model for validating the payload of POST/PUT
+- [x] Improve REST controller methods
+- [x] Improve integration test for controller
+
+
+
+
