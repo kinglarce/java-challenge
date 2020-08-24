@@ -8,7 +8,7 @@ public interface EmployeeService {
 
     public List<Employee> retrieveEmployees();
 
-    public Employee getEmployee(Long employeeId);
+    public Employee getEmployeeById(Long employeeId);
 
     public void saveEmployee(Employee employee);
 

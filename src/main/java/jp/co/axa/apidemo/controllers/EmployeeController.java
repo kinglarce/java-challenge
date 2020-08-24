@@ -23,8 +23,9 @@ public class EmployeeController {
     }
 
     @GetMapping("/employees/{employeeId}")
-    public Employee getEmployee(@PathVariable(name="employeeId")Long employeeId) {
-        return employeeService.getEmployee(employeeId);
+    public ResponseEntity<Employee> getEmployeeById(@PathVariable(name="employeeId")Long employeeId) {
+        Employee employee = employeeService.getEmployeeById(employeeId);
+        return ResponseEntity.ok().body(employee);
     }
 
     @PostMapping("/employees")
@@ -42,7 +43,7 @@ public class EmployeeController {
     @PutMapping("/employees/{employeeId}")
     public void updateEmployee(@RequestBody Employee employee,
                                @PathVariable(name="employeeId")Long employeeId){
-        Employee emp = employeeService.getEmployee(employeeId);
+        Employee emp = employeeService.getEmployeeById(employeeId);
         if(emp != null){
             employeeService.updateEmployee(employee);
         }

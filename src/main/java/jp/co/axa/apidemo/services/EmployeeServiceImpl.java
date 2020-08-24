@@ -21,7 +21,7 @@ public class EmployeeServiceImpl implements EmployeeService{
         return employees;
     }
 
-    public Employee getEmployee(Long employeeId) {
+    public Employee getEmployeeById(Long employeeId) {
         Optional<Employee> optEmp = employeeRepository.findById(employeeId);
         return optEmp.get();
     }
