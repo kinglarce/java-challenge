@@ -2,26 +2,24 @@ package jp.co.axa.apidemo.controllers;
 
 import jp.co.axa.apidemo.entities.Employee;
 import jp.co.axa.apidemo.services.EmployeeService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class EmployeeController {
 
-    @Autowired
-    private EmployeeService employeeService;
-
-    public void setEmployeeService(EmployeeService employeeService) {
-        this.employeeService = employeeService;
-    }
+    private final EmployeeService employeeService;
 
     @GetMapping("/employees")
-    public List<Employee> getEmployees() {
+    public ResponseEntity<List<Employee>> getEmployees() {
         List<Employee> employees = employeeService.retrieveEmployees();
-        return employees;
+        return ResponseEntity.ok().body(employees);
     }
 
     @GetMapping("/employees/{employeeId}")
