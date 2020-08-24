@@ -8,10 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.net.URI;
 import java.util.List;
 import java.util.Objects;
 
@@ -29,18 +27,20 @@ public class EmployeeController {
     }
 
     @GetMapping("/employees/{employeeId}")
-    public ResponseEntity<Employee> getEmployeeById(@PathVariable(name = "employeeId") Long employeeId) {
+    public ResponseEntity<Employee> getEmployee(@PathVariable(name = "employeeId") Long employeeId) {
         Employee employee = employeeService.getEmployeeById(employeeId);
         return new ResponseEntity<Employee>(employee, HttpStatus.OK);
     }
 
     @PostMapping("/employees")
     public ResponseEntity<String> saveEmployee(@RequestBody @Valid EmployeeRequest request) {
-        Employee employee = employeeService.saveEmployee(Employee.builder()
-                .name(request.getName())
-                .salary(request.getSalary())
-                .department(request.getDepartment())
-                .build());
+        Employee employee = employeeService.saveEmployee(
+                Employee.builder()
+                        .name(request.getName())
+                        .salary(request.getSalary())
+                        .department(request.getDepartment())
+                        .build()
+        );
 
         if (Objects.nonNull(employee)) {
             return new ResponseEntity<String>("Employee Saved Successfully", HttpStatus.CREATED);
@@ -49,19 +49,27 @@ public class EmployeeController {
     }
 
     @DeleteMapping("/employees/{employeeId}")
-    public void deleteEmployee(@PathVariable(name = "employeeId") Long employeeId) {
-        employeeService.deleteEmployee(employeeId);
-        System.out.println("Employee Deleted Successfully");
+    public ResponseEntity<String> deleteEmployee(@PathVariable(name = "employeeId") Long employeeId) {
+        employeeService.deleteEmployeeBy(employeeId);
+        return new ResponseEntity<String>("Employee Deleted Successfully", HttpStatus.OK);
     }
 
     @PutMapping("/employees/{employeeId}")
-    public void updateEmployee(@RequestBody Employee employee,
-                               @PathVariable(name = "employeeId") Long employeeId) {
-        Employee emp = employeeService.getEmployeeById(employeeId);
-        if (emp != null) {
-            employeeService.updateEmployee(employee);
+    public ResponseEntity<String> updateEmployee(@RequestBody @Valid EmployeeRequest request,
+                                                 @PathVariable(name = "employeeId") Long employeeId) {
+        Employee employee = employeeService.getEmployeeById(employeeId);
+        if (Objects.nonNull(employee)) {
+            employeeService.updateEmployee(
+                    employee.builder()
+                            .id(employeeId)
+                            .name(request.getName())
+                            .salary(request.getSalary())
+                            .department(request.getDepartment())
+                            .build()
+            );
+            return new ResponseEntity<String>("Employee Updated Successfully", HttpStatus.OK);
         }
-
+        return new ResponseEntity<String>(HttpStatus.NO_CONTENT);
     }
 
 }

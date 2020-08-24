@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class EmployeeServiceImpl implements EmployeeService{
+public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
 
@@ -32,15 +32,15 @@ public class EmployeeServiceImpl implements EmployeeService{
     }
 
     @Override
-    public Employee saveEmployee(Employee employee){
+    public Employee saveEmployee(Employee employee) {
         return employeeRepository.save(employee);
     }
 
-    public void deleteEmployee(Long employeeId){
+    public void deleteEmployeeBy(Long employeeId) {
         employeeRepository.deleteById(employeeId);
     }
 
-    public void updateEmployee(Employee employee) {
-        employeeRepository.save(employee);
+    public Employee updateEmployee(Employee employee) {
+        return employeeRepository.save(employee);
     }
 }
